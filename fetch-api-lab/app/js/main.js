@@ -34,6 +34,11 @@ function readResponseAsText(response){
   return response.text();
 }
 
+function readContentLength(response){
+  const contentLength = response.headers.get('content-length');
+  return contentLength;
+}
+
 function showImage(responseAsBlob){
   const container = document.getElementById('img-container');
   const imgElem = document.createElement('img');
@@ -103,6 +108,13 @@ textButton.addEventListener('click', fetchText);
 
 function headRequest() {
   // TODO
+  fetch('examples/words.txt', {
+    method: 'HEAD'
+  })
+  .then(validateResponse)
+  .then(readContentLength)
+  .then(logResult)
+  .catch(logError);
 }
 const headButton = document.getElementById('head-btn');
 headButton.addEventListener('click', headRequest);
